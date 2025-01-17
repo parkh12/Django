@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import path
-from config.fake_db import FAKE_DB
+from config.fake_db import user_db
+from bookmark import views
+from todo.views import todo_list, todo_info
 
-
-_db = {user["id"]: user for user in FAKE_DB}
+_db = {key: value for key, value in user_db.items()}
 
 
 def user_list(request):
@@ -21,7 +22,12 @@ def user_info(request, user_id):
 
 
 urlpatterns = [
-    path('users/', user_list, name='user_list'),
-    path('users/<int:user_id>/', user_info, name='user_info'),
+    # path('users/', user_list, name='user_list'),
+    # path('users/<int:user_id>/', user_info, name='user_info'),
     path('admin/', admin.site.urls),
+    path('bookmark/', views.bookmark_list),
+    path('bookmark/<int:pk>/', views.bookmark_detail ),
+    path('todo/', todo_list, name='todo_list'),
+    path('route/<int:todo_id>/', todo_info, name='todo_info'),
+
 ]
