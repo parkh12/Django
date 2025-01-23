@@ -22,7 +22,7 @@ def todo_list(request):
         'page_obj': page_obj
     }
     print(page_obj)
-    return render(request, 'todo_list.html', context)
+    return render(request, 'todo/todo_list.html', context)
 
 @login_required
 def todo_info(request, todo_id):
@@ -30,7 +30,7 @@ def todo_info(request, todo_id):
         context = {
             'todo': todo.__dict__
         }
-        return render(request, 'todo_info.html', context)
+        return render(request, 'todo/todo_info.html', context)
 
 @login_required()
 def todo_create(request):
@@ -43,7 +43,7 @@ def todo_create(request):
     context = {
         'form':form
     }
-    return render(request, 'todo_create.html', context)
+    return render(request, 'todo/todo_create.html', context)
 
 @login_required()
 def todo_update(request, todo_id):
@@ -55,7 +55,7 @@ def todo_update(request, todo_id):
     context = {
         'form': todo.pk
     }
-    return render(request, 'todo_update.html', context)
+    return render(request, 'todo/todo_update.html', context)
 
 @login_required()
 def todo_delete(request, todo_id):
