@@ -10,13 +10,13 @@ class CommentInline(admin.TabularInline):
 
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'is_completed', 'start_date', 'end_date')
+    list_display = ('id', 'user', 'title', 'description', 'is_completed', 'start_date', 'end_date')
     list_filter = ('is_completed',)
     search_fields = ('title',)
     ordering = ('start_date',)
     fieldsets = (
         ('Todo Info', {
-            'fields': ('title', 'description', 'is_completed')
+            'fields': ('user', 'title', 'description', 'completed_image', 'is_completed')
         }),
         ('Date Range', {
             'fields': ('start_date', 'end_date')
