@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import json
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ktx783yk#c_66iml*+aqtwskj-_!^m^(4tz#u$w%tsd=p%!@9_'
+with open(BASE_DIR / '.secret_config'/'secret.json') as f:
+    config_secret_str = f.read()
+
+SECRET= json.loads(config_secret_str)
+SECRET_KEY = 'DJANGO_SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -133,10 +139,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_DIR = BASE_DIR / 'static'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
+STATIC_ROOT = BASE_DIR/ '.static_root'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -183,3 +192,15 @@ SUMMERNOTE_CONFIG = {
 
 'attachment_absolute_uri': True,
 }
+
+#auth
+AUTH_USER_MODEL = 'users.User'
+
+# email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = SECRET['EMAIL']['USER']
+EMAIL_HOST_PASSWORD = SECRET['EMAIL']['PASSWORD']
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
